@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Tinky</title>
+    <meta name="description" content="Privacy Policy for the Tinky App.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0816;
+            --bg-gradient: #120c2d;
+            --primary: #7C3AED;
+            --primary-hover: #8B5CF6;
+            --text-main: #E8DDFF;
+            --text-muted: #9985CC;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top right, var(--bg-gradient), var(--bg-dark) 80%);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            z-index: -1; opacity: 0.3; animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #7C3AED; top: -100px; right: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #3B82F6; bottom: -150px; left: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-30px, 30px); }
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+
+        header { text-align: center; margin-bottom: 50px; animation: fadeInDown 0.8s ease-out; }
+        h1 { font-size: 3rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(to right, #E8DDFF, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { font-size: 1.1rem; color: var(--text-muted); }
+
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        h2 { font-size: 1.5rem; margin-top: 30px; margin-bottom: 15px; color: #E8DDFF; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        h2:first-child { margin-top: 0; }
+        p, ul { margin-bottom: 15px; color: #C4B5FD; }
+        ul { margin-left: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #E8DDFF; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) { h1 { font-size: 2.2rem; } .content-card { padding: 25px; } }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Privacy Policy</h1>
+            <p class="subtitle">Effective Date: June 2026</p>
+        </header>
+
+        <div class="content-card">
+            <h2>1. Introduction</h2>
+            <p>Welcome to Tinky. We respect your privacy and are committed to protecting it through our compliance with this policy. Tinky is designed with a privacy-first architecture, ensuring that your data remains securely on your device.</p>
+
+            <h2>2. Data Collection and Usage</h2>
+            <p><strong>Tinky does NOT collect, store, or transmit your personal data to our servers.</strong> The application operates completely locally on your machine, with the following operational behaviors:</p>
+            <ul>
+                <li><strong>Text Processing:</strong> When you invoke a trigger, Tinky temporarily reads the selected text to send it to the AI provider you have explicitly configured (e.g., OpenRouter, OpenAI, Gemini).</li>
+                <li><strong>Local Storage:</strong> All settings, API keys, custom triggers, and conversation history are encrypted and stored locally on your device in your AppData folder.</li>
+                <li><strong>No Telemetry:</strong> We do not track your usage, keystrokes, or application behavior.</li>
+            </ul>
+
+            <h2>3. Third-Party AI Providers</h2>
+            <p>To provide AI generation capabilities, Tinky communicates directly with the Third-Party AI APIs you configure (such as OpenAI, Google Gemini, or OpenRouter). By using Tinky, you agree that your selected text and prompts will be transmitted directly to these third-party services.</p>
+            <p>We strongly recommend reviewing the privacy policies of the AI providers you choose to connect to Tinky.</p>
+
+            <h2>4. Security</h2>
+            <p>Your API keys are encrypted at rest using machine-specific encryption keys. However, no method of electronic storage is 100% secure. You are responsible for maintaining the security of your device.</p>
+
+            <h2>5. Changes to Our Privacy Policy</h2>
+            <p>We may update our privacy policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+
+            <h2>6. Contact Information</h2>
+            <p>To ask questions or comment about this privacy policy and our privacy practices, please contact the developer via the official repository or website.</p>
+        </div>
+    </div>
+</body>
+</html>

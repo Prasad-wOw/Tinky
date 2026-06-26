@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Triggers - Tinky Guide</title>
+    <meta name="description" content="Learn how to create and use custom triggers in Tinky to automate your workflow.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0816;
+            --bg-gradient: #120c2d;
+            --primary: #7C3AED;
+            --primary-hover: #8B5CF6;
+            --text-main: #E8DDFF;
+            --text-muted: #9985CC;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(124, 58, 237, 0.4);
+            --success: #10B981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top left, var(--bg-gradient), var(--bg-dark) 80%);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            width: 350px; height: 350px;
+            background: #7C3AED;
+            top: -150px; right: -150px;
+        }
+        .orb-2 {
+            width: 400px; height: 400px;
+            background: #F43F5E;
+            bottom: -150px; left: -150px;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-30px, -30px); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #E8DDFF, #F43F5E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(124, 58, 237, 0.1);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.03);
+            line-height: 1;
+            z-index: 0;
+            user-select: none;
+        }
+
+        .step-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-title .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(124, 58, 237, 0.15);
+            border-radius: 10px;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #C4B5FD;
+        }
+
+        code {
+            font-family: 'Consolas', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #F43F5E;
+            font-size: 0.9em;
+        }
+
+        .trigger-example {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .trigger-example .col {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .trigger-example .col:first-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trigger-example h4 {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .trigger-example .val {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.3);
+            border: 1px dashed var(--card-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            margin-top: 20px;
+            font-size: 0.9rem;
+            overflow: hidden;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .note {
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .step-card { padding: 20px; }
+            .trigger-example { flex-direction: column; }
+            .trigger-example .col:first-child { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Mastering Custom Triggers</h1>
+            <p class="subtitle">Personalise Tinky to fit your exact workflow. Automate tone changes, coding tasks, formatting, and more with just a few keystrokes.</p>
+        </header>
+
+        <div class="step-container">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">⚡</div>
+                        What is a Trigger?
+                    </h2>
+                    <p>A trigger is a short text snippet (usually ending with a dot, like <code>.pirate</code>) that tells Tinky to perform a specific AI instruction on the text you just typed.</p>
+                    <p>Instead of copying text, opening a browser, prompting ChatGPT, and pasting the result back... you just type the trigger right in your app!</p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">🛠️</div>
+                        Create Your Trigger
+                    </h2>
+                    <p>Let's make a custom trigger that turns any boring message into pirate speak.</p>
+                    <ol style="margin-left: 20px; color: #C4B5FD; line-height: 1.8;">
+                        <li>Open the Tinky Dashboard.</li>
+                        <li>Click on the <strong>Settings</strong> gear icon.</li>
+                        <li>Navigate to the <strong>Triggers</strong> tab.</li>
+                        <li>Click <strong>Add New Trigger</strong>.</li>
+                        <li>Fill in the details as shown below, then hit Save.</li>
+                    </ol>
+
+                    <div class="trigger-example">
+                        <div class="col">
+                            <h4>Trigger String</h4>
+                            <div class="val">.pirate</div>
+                        </div>
+                        <div class="col">
+                            <h4>AI Instruction</h4>
+                            <div class="val">Rewrite this text in the style of a pirate. Arrr!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="image-placeholder">
+                        <img src="Trigger_adding.png" alt="Trigger Dashboard Screenshot">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">✨</div>
+                        See the Magic Happen
+                    </h2>
+                    <p>Your custom trigger is ready to be used in Discord, Word, VS Code, or any other app!</p>
+                    <ol style="margin-left: 20px; color: #C4B5FD; line-height: 1.8;">
+                        <li>Open any text editor or chat app.</li>
+                        <li>Type your message: <code>Hello team, let's start the meeting.</code></li>
+                        <li>Type your trigger right after: <code>.pirate</code></li>
+                        <li>Watch as Tinky automatically replaces it with: <code>Ahoy mateys! Let's hoist the sails and begin this parley.</code></li>
+                    </ol>
+                    
+                    <div class="note" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
+                        <strong>Pro Tip:</strong> You can create triggers for anything! E.g. <code>.code</code> (Refactor this code), <code>.polite</code> (Make this email sound professional), or <code>.translate</code> (Translate to Spanish).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides & Support - Tinky</title>
+    <meta name="description" content="Central hub for Tinky guides, tutorials, and support.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0816;
+            --bg-gradient: #120c2d;
+            --primary: #7C3AED;
+            --primary-hover: #8B5CF6;
+            --text-main: #E8DDFF;
+            --text-muted: #9985CC;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(124, 58, 237, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top center, var(--bg-gradient), var(--bg-dark) 80%);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.3;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: #7C3AED;
+            top: -100px; left: -100px;
+        }
+        .orb-2 {
+            width: 300px; height: 300px;
+            background: #F43F5E;
+            bottom: -100px; right: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #E8DDFF, #A78BFA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .guide-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 35px 30px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .guide-card:nth-child(1) { animation-delay: 0.1s; }
+        .guide-card:nth-child(2) { animation-delay: 0.2s; }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 25px rgba(124, 58, 237, 0.15);
+        }
+
+        .guide-card:hover::before {
+            opacity: 1;
+        }
+
+        .guide-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: rgba(124, 58, 237, 0.15);
+            border-radius: 14px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .guide-card:hover .guide-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .guide-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #E8DDFF;
+        }
+
+        .guide-desc {
+            color: #C4B5FD;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .guide-link-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-hover);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .guide-link-text span {
+            transition: transform 0.2s;
+        }
+
+        .guide-card:hover .guide-link-text span {
+            transform: translateX(4px);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .container { padding: 50px 20px; }
+            .guide-card { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Tinky Guides</h1>
+            <p class="subtitle">Everything you need to master your digital AI companion. From setup to advanced automations.</p>
+        </header>
+
+        <div class="guides-grid">
+            
+            <!-- Guide 1 -->
+            <a href="setup-api-key.html" class="guide-card">
+                <div class="guide-icon">🤖</div>
+                <h2 class="guide-title">Setup AI Provider</h2>
+                <p class="guide-desc">Learn how to easily set up OpenRouter, OpenAI, Gemini, or Ollama API keys to bring Tinky to life.</p>
+                <div class="guide-link-text">Read Guide <span>→</span></div>
+            </a>
+
+            <!-- Guide 2 -->
+            <a href="custom-triggers.html" class="guide-card">
+                <div class="guide-icon">⚡</div>
+                <h2 class="guide-title">Custom Triggers</h2>
+                <p class="guide-desc">Personalise Tinky to fit your workflow. Automate tone changes, coding tasks, and formatting with shortcuts.</p>
+                <div class="guide-link-text">Read Guide <span>→</span></div>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>

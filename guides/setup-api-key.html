@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup API Key - Tinky Guide</title>
+    <meta name="description" content="Learn how to easily set up OpenRouter, OpenAI, Gemini, or Ollama API keys in Tinky.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0816;
+            --bg-gradient: #120c2d;
+            --primary: #7C3AED;
+            --primary-hover: #8B5CF6;
+            --text-main: #E8DDFF;
+            --text-muted: #9985CC;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(124, 58, 237, 0.4);
+            --success: #10B981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top right, var(--bg-gradient), var(--bg-dark) 80%);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            width: 300px; height: 300px;
+            background: #7C3AED;
+            top: -100px; left: -100px;
+        }
+        .orb-2 {
+            width: 400px; height: 400px;
+            background: #3B82F6;
+            bottom: -150px; right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #E8DDFF, #A78BFA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .step-card:nth-child(1) { animation-delay: 0.1s; }
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(124, 58, 237, 0.1);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.03);
+            line-height: 1;
+            z-index: 0;
+            user-select: none;
+        }
+
+        .step-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-title .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(124, 58, 237, 0.15);
+            border-radius: 10px;
+            color: var(--primary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #C4B5FD;
+        }
+
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .provider-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .provider-box.recommended {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .provider-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .provider-box.recommended h4 {
+            color: var(--success);
+        }
+
+        .provider-box p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary), #5B21B6);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            max-width: 720px;
+            aspect-ratio: 16 / 9;
+            background: rgba(0,0,0,0.3);
+            border: 1px dashed var(--card-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 20px 0 0;
+            padding: 12px;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .copy-field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .copy-field {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 14px;
+            text-align: left;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .copy-field:hover {
+            border-color: rgba(124, 58, 237, 0.6);
+            background: rgba(124, 58, 237, 0.12);
+        }
+
+        .copy-field span {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: rgba(124, 58, 237, 0.18);
+            color: #E8DDFF;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+
+        .copy-field:focus {
+            outline: 2px solid rgba(124, 58, 237, 0.8);
+            outline-offset: 2px;
+        }
+
+        .note {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #F59E0B;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .step-card { padding: 20px; }
+            .copy-field-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Connect Your AI Brain</h1>
+            <p class="subtitle">Tinky needs an AI provider to work its magic. We recommend OpenRouter for the best experience, but you have choices.</p>
+        </header>
+
+        <div class="step-container">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">🤖</div>
+                        Choose Your Provider
+                    </h2>
+                    <p>Tinky is flexible and supports multiple AI engines. Choose the one that fits your needs.</p>
+                    
+                    <div class="provider-grid">
+                        <div class="provider-box recommended">
+                            <h4>OpenRouter</h4>
+                            <p>Recommended. Access to Claude, GPT-4, Llama, and hundreds more through one key.</p>
+                        </div>
+                        <div class="provider-box">
+                            <h4>OpenAI</h4>
+                            <p>Direct integration for ChatGPT models (GPT-4o, GPT-4-mini).</p>
+                        </div>
+                        <div class="provider-box">
+                            <h4>Gemini</h4>
+                            <p>Google's powerful native models (Gemini 1.5 Pro/Flash).</p>
+                        </div>
+                        <div class="provider-box">
+                            <h4>Ollama</h4>
+                            <p>Local, private AI. Run models on your own hardware for free.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">🔑</div>
+                        Get Your API Key
+                    </h2>
+                    <p>For this guide, we'll use <strong>OpenRouter</strong>. It's the easiest way to get started and offers many free models.</p>
+                    <ol style="margin-left: 20px; color: #C4B5FD; line-height: 1.8;">
+                        <li>Go to the OpenRouter Keys page.</li>
+                        <li>Sign in or create an account.</li>
+                        <li>Click <strong>"Create Key"</strong>. Give it a name like "Tinky".</li>
+                        <li>Copy the generated key. Keep it secret!</li>
+                    </ol>
+                    <a href="https://openrouter.ai/keys" target="_blank" class="btn">
+                        Get OpenRouter Key ↗
+                    </a>
+                    
+                    <div class="note">
+                        <strong>Using Ollama?</strong> You don't need an API key! Just ensure your local Ollama server is running.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h2 class="step-title">
+                        <div class="icon">⚙️</div>
+                        Add it to Tinky
+                    </h2>
+                    <p>Now, let's link your key to Tinky so it can start assisting you.</p>
+                    <ol style="margin-left: 20px; color: #C4B5FD; line-height: 1.8;">
+                        <li>Open the Tinky Dashboard.</li>
+                        <li>Click the <strong>AI Provider</strong> button (or the Gear icon) in the top right.</li>
+                        <li>Select your provider from the dropdown menu.</li>
+                        <li>Paste your API key into the secure field.</li>
+                        <li>
+                            Choose your preferred model by clicking one of the fields below.
+                            <div class="copy-field-grid">
+                                <button type="button" class="copy-field" data-value="openrouter/free">
+                                    openrouter/free
+                                    <span>Copy</span>
+                                </button>
+                                <button type="button" class="copy-field" data-value="openrouter/auto">
+                                    openrouter/auto
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                        </li>
+                        <li>Click <strong>Save & Apply</strong>.</li>
+                    </ol>
+                    
+                    <!-- You can replace this placeholder with an actual screenshot later -->
+                    <div class="image-placeholder">
+                        <img src="Settings of Tinky.png" alt="Screenshot of Tinky's AI Provider settings showing where to input the API key and select the model.">
+                    </div>
+                    
+                    <div class="note" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
+                        <strong>🎉 You're all set!</strong> Try selecting some text and pressing <code> Ctrl + ` (backtick will be under esc button) </code> to test it out.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.copy-field').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.dataset.value;
+                navigator.clipboard.writeText(value).then(() => {
+                    const label = button.querySelector('span');
+                    const original = label.textContent;
+                    label.textContent = 'Copied';
+                    setTimeout(() => {
+                        label.textContent = original;
+                    }, 1400);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
