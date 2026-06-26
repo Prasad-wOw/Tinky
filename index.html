@@ -22,55 +22,156 @@
   <!-- ============================
        LOADING SCREEN
   ============================= -->
-  <div id="tinky-loader" class="tinky-loader">
-    <!-- Ambient orbs -->
-    <div class="loader-orb loader-orb-1"></div>
-    <div class="loader-orb loader-orb-2"></div>
-    <div class="loader-orb loader-orb-3"></div>
+  <!-- Inline critical styles so loader looks perfect even before styles.css parses -->
+  <style>
+    #tinky-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0F1115;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      font-family: 'Outfit', 'Inter', sans-serif;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    #tinky-loader.loader-exit {
+      opacity: 0;
+      transform: scale(1.05);
+      pointer-events: none;
+    }
+    #tinky-loader.loader-done { display: none; }
 
-    <div class="loader-body">
-      <!-- Spinning ring + logo -->
-      <div class="loader-ring-wrap">
-        <svg class="loader-ring" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Track -->
-          <circle cx="60" cy="60" r="54" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
-          <!-- Progress arc -->
-          <circle class="loader-arc" cx="60" cy="60" r="54"
-                  stroke="url(#arcGrad)" stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-dasharray="339.3"
-                  stroke-dashoffset="339.3"
-                  transform="rotate(-90 60 60)"/>
-          <defs>
-            <linearGradient id="arcGrad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#5E8BFF"/>
-              <stop offset="0.5" stop-color="#6FE7FF"/>
-              <stop offset="1" stop-color="#8C7DFF"/>
-            </linearGradient>
-          </defs>
-        </svg>
+    /* Orbs */
+    .ld-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ldOrbPulse 6s ease-in-out infinite alternate;
+    }
+    .ld-orb-1 { width:480px;height:480px; background:radial-gradient(circle,rgba(94,139,255,0.28),transparent 70%); top:-160px;left:-140px; animation-delay:0s; }
+    .ld-orb-2 { width:320px;height:320px; background:radial-gradient(circle,rgba(140,125,255,0.22),transparent 70%); bottom:-80px;right:-80px; animation-delay:2s; }
+    .ld-orb-3 { width:200px;height:200px; background:radial-gradient(circle,rgba(111,231,255,0.18),transparent 70%); top:35%;left:62%; animation-delay:4s; }
+    @keyframes ldOrbPulse {
+      from { opacity:0.5; transform:scale(1) translate(0,0); }
+      to   { opacity:1;   transform:scale(1.1) translate(15px,-20px); }
+    }
 
-        <!-- Dot that runs along the arc -->
-        <div class="loader-dot-runner"></div>
+    /* Centre group */
+    .ld-centre {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      z-index: 1;
+      animation: ldIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes ldIn {
+      from { opacity:0; transform:translateY(20px) scale(0.95); }
+      to   { opacity:1; transform:translateY(0)    scale(1); }
+    }
 
-        <!-- Tinky logo in the centre -->
-        <div class="loader-logo-wrap">
-          <img src="assets/Tinky_logo.png" alt="Tinky" class="loader-logo" />
-          <div class="loader-glow-pulse"></div>
+    /* Ring + logo */
+    .ld-ring-box {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #ld-canvas {
+      position: absolute;
+      inset: 0;
+      width: 150px;
+      height: 150px;
+    }
+    .ld-logo-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .ld-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      animation: ldFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 18px rgba(94,139,255,0.7)) drop-shadow(0 0 36px rgba(111,231,255,0.35));
+    }
+    @keyframes ldFloat {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-7px); }
+    }
+
+    /* Text */
+    .ld-name {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg,#5E8BFF 0%,#6FE7FF 50%,#8C7DFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .ld-sub {
+      font-size: 0.82rem;
+      color: #A8B3CF;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+
+    /* Bouncing dots */
+    .ld-dots {
+      display: flex;
+      gap: 7px;
+      margin-top: 4px;
+    }
+    .ld-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      animation: ldBounce 1.1s ease-in-out infinite;
+    }
+    .ld-dot:nth-child(1){ background:#5E8BFF; animation-delay:0s; }
+    .ld-dot:nth-child(2){ background:#6FE7FF; animation-delay:0.18s; }
+    .ld-dot:nth-child(3){ background:#8C7DFF; animation-delay:0.36s; }
+    @keyframes ldBounce {
+      0%,80%,100% { transform:translateY(0);   opacity:0.4; }
+      40%          { transform:translateY(-9px); opacity:1; }
+    }
+  </style>
+
+  <div id="tinky-loader">
+    <div class="ld-orb ld-orb-1"></div>
+    <div class="ld-orb ld-orb-2"></div>
+    <div class="ld-orb ld-orb-3"></div>
+
+    <div class="ld-centre">
+      <!-- Ring + logo stacked -->
+      <div class="ld-ring-box">
+        <canvas id="ld-canvas" width="150" height="150"></canvas>
+        <div class="ld-logo-inner">
+          <img src="assets/Tinky_logo.png" alt="Tinky" class="ld-logo" />
         </div>
       </div>
 
-      <!-- Word-mark -->
-      <div class="loader-wordmark">
-        <span class="loader-brand">Tinky</span>
-        <span class="loader-tagline">Summoning your genie…</span>
+      <!-- Brand name + tagline -->
+      <div style="text-align:center;">
+        <div class="ld-name">Tinky</div>
+        <div class="ld-sub">Summoning your genie…</div>
       </div>
 
-      <!-- Dots indicator -->
-      <div class="loader-dots">
-        <span class="loader-dot"></span>
-        <span class="loader-dot"></span>
-        <span class="loader-dot"></span>
+      <!-- Bouncing dots -->
+      <div class="ld-dots">
+        <div class="ld-dot"></div>
+        <div class="ld-dot"></div>
+        <div class="ld-dot"></div>
       </div>
     </div>
   </div>
