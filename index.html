@@ -13,9 +13,64 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" type="image/png" href="assets/tinky_app_icon.ico" />
-  
+  <style>
+    .loading-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.6s ease-out;
+    }
+    .loading-indicator.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(94, 139, 255, 0.2);
+      border-top-color: #5e8bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loading-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      color: #fff;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .loading-percentage {
+      font-family: 'Inter', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #5e8bff 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
 </head>
 <body>
+  <!-- Loading Indicator -->
+  <div id="loading-indicator" class="loading-indicator">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading</div>
+    <div class="loading-percentage" id="loading-percentage">0%</div>
+  </div>
+
   <!-- Cursor Glow -->
   <div id="cursor-glow" class="cursor-glow"></div>
 
@@ -43,7 +98,7 @@
 
       <div class="nav-actions">
         <a href="https://youtu.be/d6qUMZA48lI" class="btn-ghost" id="nav-demo-btn" target="_blank" rel="noopener noreferrer">Watch Demo</a>
-        <a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="btn-primary btn-sm" id="nav-download-btn" download>Download Beta</a>
+        <a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="btn-primary btn-sm" id="nav-download-btn" download>Download Beta</a>
       </div>
 
       <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
@@ -56,7 +111,7 @@
       <a href="#privacy" class="mobile-link">Privacy</a>
       <a href="#beta" class="mobile-link">Beta</a>
       <a href="guides/Guide.html" class="mobile-link">Guides</a>
-      <a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="btn-primary" id="mobile-download-btn" download>Download Beta</a>
+      <a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="btn-primary" id="mobile-download-btn" download>Download Beta</a>
     </div>
   </nav>
 
@@ -125,7 +180,7 @@
         </p>
 
         <div class="hero-ctas reveal reveal-delay-4">
-          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="btn-primary btn-large" id="hero-download-btn" download>
+          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="btn-primary btn-large" id="hero-download-btn" download>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10M5 8l4 4 4-4M3 14h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Download Beta Version
           </a>
@@ -620,7 +675,7 @@
         </p>
 
         <div class="beta-cta reveal reveal-delay-4">
-          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="btn-primary btn-large" id="beta-download-btn" download>
+          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="btn-primary btn-large" id="beta-download-btn" download>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10M5 8l4 4 4-4M3 14h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Download Beta
           </a>
@@ -664,7 +719,7 @@
         </p>
 
         <div class="final-ctas reveal reveal-delay-3">
-          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="btn-primary btn-large btn-glow" id="final-download-btn" download>
+          <a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="btn-primary btn-large btn-glow" id="final-download-btn" download>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10M5 8l4 4 4-4M3 14h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Download Beta
           </a>
@@ -698,7 +753,7 @@
             <h4 class="footer-col-title">Product</h4>
             <ul class="footer-links">
               <li><a href="#features" class="footer-link">Features</a></li>
-              <li><a href="https://github.com/Prasad-wOw/Tinky/releases/download/untagged-e7dc906737262d3a6f96/Tinky.exe" class="footer-link" download>Download</a></li>
+              <li><a href="https://github.com/Prasad-wOw/Tinky/releases/download/v1.0.1/Tinky.exe" class="footer-link" download>Download</a></li>
               <li><a href="#" class="footer-link">Roadmap</a></li>
             </ul>
           </div>
@@ -739,6 +794,31 @@
     </div>
   </footer>
 
+  <script>
+    // Simulate loading progress
+    let currentProgress = 0;
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const loadingPercentage = document.getElementById('loading-percentage');
+    
+    function updateProgress() {
+      if (currentProgress < 90) {
+        currentProgress += Math.random() * (15 - 3) + 3;
+        if (currentProgress > 90) currentProgress = 90;
+      }
+      loadingPercentage.textContent = Math.floor(currentProgress) + '%';
+    }
+    
+    const progressInterval = setInterval(updateProgress, 300);
+    
+    window.addEventListener('load', function() {
+      currentProgress = 100;
+      loadingPercentage.textContent = '100%';
+      clearInterval(progressInterval);
+      setTimeout(function() {
+        loadingIndicator.classList.add('hidden');
+      }, 400);
+    });
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
