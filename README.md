@@ -6,7 +6,6 @@
   **A digital genie living beside your cursor.**
 
   [![Windows 11](https://img.shields.io/badge/Windows-11-0078D6?style=for-the-badge&logo=windows&logoColor=white)](#)
-  [![Version](https://img.shields.io/badge/Version-Beta_1.0.0-5E8BFF?style=for-the-badge)](#)
   [![License](https://img.shields.io/badge/License-MIT-8C7DFF?style=for-the-badge)](#)
   [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-6FE7FF?style=for-the-badge)](#)
 
