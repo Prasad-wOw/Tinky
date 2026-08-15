@@ -18,7 +18,7 @@
   <a href="https://apps.microsoft.com/detail/9NHCMMDMTR7S?hl=en-us&gl=IN&ocid=pdpshare">
     <img src="assets/Get it from Microsoft.png" alt="Get it from Microsoft" height="60" />
   </a>
-  &nbsp;&nbsp;&nbsp;
+  
   <a href="https://youtu.be/d6qUMZA48lI">
     <img src="https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo" height="60"/>
   </a>
