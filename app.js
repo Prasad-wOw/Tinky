@@ -358,14 +358,10 @@ document.querySelectorAll('a, button').forEach(el => {
   });
 });
 
-/* =====================================================
-   INITIAL REVEAL FOR HERO (above fold)
-   ===================================================== */
-setTimeout(() => {
-  document.querySelectorAll('.hero .reveal').forEach(el => {
-    el.classList.add('revealed');
-  });
-}, 100);
+/* Hero elements are already visible — just trigger reveal class immediately */
+document.querySelectorAll('.hero .reveal').forEach(el => {
+  el.classList.add('revealed');
+});
 
 /* =====================================================
    BREATHING GLOW EFFECT ON HERO MASCOT
@@ -389,14 +385,16 @@ if (mascotImg) {
 }
 
 /* =====================================================
-   PAGE LOAD INTRO ANIMATION
+   LOADING SCREEN
    ===================================================== */
-document.documentElement.style.opacity = '0';
-document.documentElement.style.transition = 'opacity 0.6s ease';
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.documentElement.style.opacity = '1';
-  }, 100);
+  const loader = document.getElementById('loading-screen');
+  if (loader) {
+    // Add a slight delay to ensure smooth transition
+    setTimeout(() => {
+      loader.classList.add('hidden');
+    }, 500);
+  }
 });
 
 console.log('✨ Tinky is ready. Your genie awaits.');

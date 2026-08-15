@@ -1439,3 +1439,48 @@ body:hover .cursor-glow::after { transform: translate(-50%, -50%) scale(1); }
   .mascot-img { width: 150px; height: 150px; }
   .workflow-card { min-width: unset; }
 }
+
+/* ---- LOADING SCREEN ---- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.loading-spinner {
+  width: 400px;
+  height: 400px;
+  animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+/* ---- MS STORE BUTTONS ---- */
+.ms-store-link {
+  display: inline-block;
+  transition: transform var(--transition);
+}
+.ms-store-link:hover {
+  transform: translateY(-2px);
+}
+.ms-store-badge-sm {
+  height: 60px;
+  width: auto;
+  border-radius: 8px;
+}
+.ms-store-badge-lg {
+  height: 81px;
+  width: auto;
+  border-radius: 12px;
+}
