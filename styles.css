@@ -1456,8 +1456,9 @@ body:hover .cursor-glow::after { transform: translate(-50%, -50%) scale(1); }
   visibility: hidden;
 }
 .loading-spinner {
-  width: 400px;
-  height: 400px;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
   animation: pulse 2s infinite ease-in-out;
 }
 @keyframes pulse {

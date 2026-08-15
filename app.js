@@ -387,12 +387,22 @@ if (mascotImg) {
 /* =====================================================
    LOADING SCREEN
    ===================================================== */
+// The SVG animation is ~2 seconds long and doesn't loop natively. 
+// We manually loop it here by resetting the src until the page finishes loading.
+const loaderImg = document.querySelector('.loading-spinner');
+let loaderInterval;
+if (loaderImg) {
+  loaderInterval = setInterval(() => {
+    loaderImg.src = 'assets/loading.svg?t=' + new Date().getTime();
+  }, 2000);
+}
+
 window.addEventListener('load', () => {
   const loader = document.getElementById('loading-screen');
   if (loader) {
-    // Add a slight delay to ensure smooth transition
     setTimeout(() => {
       loader.classList.add('hidden');
+      if (loaderInterval) clearInterval(loaderInterval);
     }, 500);
   }
 });
