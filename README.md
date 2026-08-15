@@ -1,6 +1,6 @@
 <div align="center">
   
-  <img src="assets/tinky_app_icon.png" alt="Tinky Logo" width="120" />
+  <img src="assets/Tinky_logo.png" alt="Tinky Logo" width="120" />
 
   # Tinky — Unleash Your Genie
   **A digital genie living beside your cursor.**
@@ -20,7 +20,7 @@
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://youtu.be/d6qUMZA48lI">
-    <img src="https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo" height="42"/>
+    <img src="https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo" height="60"/>
   </a>
 
 </div>
